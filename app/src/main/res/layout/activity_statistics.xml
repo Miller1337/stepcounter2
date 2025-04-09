@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ADFF2F">
+
+    <!-- Скроллируемая область для таблицы, занимает пространство от верхней границы до навигационной панели -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigationBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TableLayout
+                android:id="@+id/tableStatistics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:padding="16dp"
+                android:textColor="@android:color/black">
+
+                <!-- Заголовок таблицы -->
+                <TableRow android:gravity="center">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Дата"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Шаги"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Км"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Ккал"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:textColor="@android:color/black"/>
+                </TableRow>
+                <!-- Дополнительные строки добавляются динамически -->
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Навигационная панель, закрепленная внизу -->
+    <LinearLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnStatistics"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Статистика" />
+
+        <Button
+            android:id="@+id/btnMain"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Основной" />
+
+        <Button
+            android:id="@+id/btnMaps"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Карты" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
