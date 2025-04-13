@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ADFF2F">
+    android:background="@drawable/background_gradient">
 
     <!-- Скроллируемая область для таблицы, занимает пространство от верхней границы до навигационной панели -->
     <ScrollView
@@ -80,36 +81,51 @@
     <!-- Навигационная панель, закрепленная внизу -->
     <LinearLayout
         android:id="@+id/navigationBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:padding="8dp"
-        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnStatistics"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Статистика" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:padding="@dimen/button_padding"
+            android:text="Статистика"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/button_text_size" />
 
         <Button
             android:id="@+id/btnMain"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Основной" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:padding="@dimen/button_padding"
+            android:text="Основной"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/button_text_size" />
 
         <Button
             android:id="@+id/btnMaps"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Карты" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:padding="@dimen/button_padding"
+            android:text="Карты"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/button_text_size" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

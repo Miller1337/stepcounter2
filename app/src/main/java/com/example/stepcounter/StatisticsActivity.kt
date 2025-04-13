@@ -1,7 +1,9 @@
 package com.example.stepcounter
 import android.graphics.Color
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -13,6 +15,16 @@ class StatisticsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
         populateStatisticsTable()
+        findViewById<Button>(R.id.btnStatistics).setOnClickListener {
+
+        }
+        findViewById<Button>(R.id.btnMain).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+
+        }
+        findViewById<Button>(R.id.btnMaps).setOnClickListener {
+            startActivity(Intent(this, MapActivity::class.java))
+        }
     }
 
     private fun populateStatisticsTable() {

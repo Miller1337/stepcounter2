@@ -1,5 +1,4 @@
 package com.example.stepcounter
-
 import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,10 +6,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import java.text.SimpleDateFormat
@@ -25,17 +27,13 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_ACTIVITY_RECOGNITION = 1001
     private lateinit var sharedPref: SharedPreferences
 
-
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
 
     private val stepReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-
             val newSteps = intent?.getIntExtra("step_count", loadStepCount()) ?: loadStepCount()
             saveStepData(newSteps)
             updateUI(newSteps)
-
             checkForNewDayAndReset()
         }
     }
@@ -44,17 +42,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         sharedPref = getSharedPreferences("StepCounterPrefs", Context.MODE_PRIVATE)
-
 
         tvStepCount = findViewById(R.id.tvStepCount)
         tvDistance = findViewById(R.id.tvDistance)
         tvCalories = findViewById(R.id.tvCalories)
 
-
         registerReceiver(stepReceiver, IntentFilter("STEP_COUNT_UPDATE"), Context.RECEIVER_NOT_EXPORTED)
 
+        // Проверка наличия необходимых датчиков
+        if (!checkSensorsAvailable()) {
+            Toast.makeText(this, "Необходимые датчики отсутствуют. Приложение может работать некорректно.", Toast.LENGTH_LONG).show()
+            return
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
             checkSelfPermission(Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
@@ -67,26 +67,30 @@ class MainActivity : AppCompatActivity() {
             startStepCountingService()
         }
 
-
         updateUI(loadStepCount())
         checkForNewDayAndReset()
-
 
         findViewById<Button>(R.id.btnStatistics).setOnClickListener {
             startActivity(Intent(this, StatisticsActivity::class.java))
         }
         findViewById<Button>(R.id.btnMain).setOnClickListener {
-
+            // Уже на главном экране
         }
         findViewById<Button>(R.id.btnMaps).setOnClickListener {
             startActivity(Intent(this, MapActivity::class.java))
         }
     }
 
+    private fun checkSensorsAvailable(): Boolean {
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        val accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        return stepSensor != null || accelSensor != null
+    }
+
     private fun startStepCountingService() {
         startService(Intent(this, StepCountingService::class.java))
     }
-
 
     private fun updateUI(steps: Int) {
         val stepLengthMeters = 0.7
@@ -108,11 +112,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loadStepCount(): Int {
         return sharedPref.getInt("today_steps", 0)
     }
-
 
     private fun checkForNewDayAndReset() {
         val lastDate = sharedPref.getString("last_date", null)
@@ -136,7 +138,6 @@ class MainActivity : AppCompatActivity() {
         val existingData = statisticsPref.getString("data", "") ?: ""
         val currentDate = dateFormat.format(Date())
 
-
         val newEntry = "$currentDate,$steps,${"%.2f".format(distanceKm)},${"%.2f".format(caloriesBurned)}"
         val updatedData = if (existingData.isEmpty()) newEntry else "$existingData\n$newEntry"
 
@@ -145,7 +146,6 @@ class MainActivity : AppCompatActivity() {
             apply()
         }
     }
-
 
     private fun resetDailyData() {
         with(sharedPref.edit()) {

@@ -1,6 +1,8 @@
 package com.example.stepcounter
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
@@ -28,6 +30,15 @@ class MapActivity : AppCompatActivity() {
             Animation(Animation.Type.SMOOTH, 1.0f),
             null
         )
+        findViewById<Button>(R.id.btnStatistics).setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnMain).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnMaps).setOnClickListener {
+
+        }
     }
 
     override fun onStart() {
